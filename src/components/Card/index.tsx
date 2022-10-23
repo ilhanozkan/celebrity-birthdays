@@ -28,7 +28,12 @@ const Card: React.FC<Props> = ({ info, setData }) => {
       </div>
       <p>{info.age} years</p>
       <p>
-        Is {info.gender} alive: {info.is_alive ? "Yes" : "No 😔"}
+        Is
+        {info.gender &&
+          (info.gender === "male"
+            ? " he "
+            : info.gender === "female" && " she ")}
+        alive: {info.is_alive ? "Yes" : "No 😔"}
       </p>
     </article>
   );
