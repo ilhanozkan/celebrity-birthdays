@@ -14,27 +14,35 @@ const App = () => {
   const month = new Date().getMonth() + 1;
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `https://api.api-ninjas.com/v1/celebrity?nationality=${nationality}`,
-      headers: {
-        "X-Api-Key": process.env.REACT_APP_API_KEY,
-      },
-    })
-      .then((res) => {
-        setLoading(false);
-        return res.data;
+    try {
+      axios({
+        method: "get",
+        url: `https://api.api-ninjas.com/v1/celebrity?nationality=${nationality}`,
+        headers: {
+          "X-Api-Key": process.env.REACT_APP_API_KEY,
+        },
       })
-      .then((celebrities) =>
-        setData(
-          celebrities.filter(
-            (celebrity: ICelebrity) =>
-              celebrity.birthday?.split("-")[1]?.replace(/^0+/, "") ===
-              month.toString()
+        .then((res) => {
+          setLoading(false);
+          return res.data;
+        })
+        .then((celebrities) =>
+          setData(
+            celebrities.filter(
+              (celebrity: ICelebrity) =>
+                celebrity.birthday?.split("-")[1]?.replace(/^0+/, "") ===
+                month.toString()
+            )
           )
-        )
-      );
+        );
+    } catch (error) {
+      throw error;
+    }
   }, [nationality, month]);
+
+  useEffect(() => {
+    setLoading(true);
+  }, [nationality]);
 
   if (loading)
     return (
