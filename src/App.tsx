@@ -7,11 +7,13 @@ import { ICelebrity } from "./types/Celebrity";
 const App = () => {
   const [data, setData] = useState<ICelebrity[]>([]);
   const [loading, setLoading] = useState(true);
+  const [nationality, setNationality] = useState<string>(
+    navigator.language.split("-")[0] || "TR"
+  );
+  const nationalities = ["TR", "US", "DE"];
+  const month = new Date().getMonth() + 1;
 
   useEffect(() => {
-    const nationality = navigator.language.split("-")[0] || "tr";
-    const month = new Date().getMonth() + 1;
-
     axios({
       method: "get",
       url: `https://api.api-ninjas.com/v1/celebrity?nationality=${nationality}`,
@@ -27,12 +29,12 @@ const App = () => {
         setData(
           celebrities.filter(
             (celebrity: ICelebrity) =>
-              celebrity.birthday.split("-")[1]?.replace(/^0+/, "") ===
+              celebrity.birthday?.split("-")[1]?.replace(/^0+/, "") ===
               month.toString()
           )
         )
       );
-  }, []);
+  }, [nationality, month]);
 
   if (loading)
     return (
@@ -52,6 +54,13 @@ const App = () => {
           </li>
         ))}
       </ul>
+      <select onChange={(e) => setNationality(e.target.value)}>
+        {nationalities.map((nat) => (
+          <option key={nat} value={nat}>
+            {nat}
+          </option>
+        ))}
+      </select>
       <div>
         <span>
           {data.length > 1
