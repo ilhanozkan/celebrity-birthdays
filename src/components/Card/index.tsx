@@ -3,6 +3,13 @@ import React from "react";
 import { ICelebrity, Props } from "../../types/Celebrity";
 
 const Card: React.FC<Props> = ({ info, setData }) => {
+  const removeFromList = () => {
+    setData((data: ICelebrity[]) =>
+      data.filter((celebrity: ICelebrity) => celebrity.name !== info.name)
+    );
+    localStorage.setItem("celebrities.data", "[]");
+  };
+
   return (
     <article>
       <div
@@ -13,16 +20,7 @@ const Card: React.FC<Props> = ({ info, setData }) => {
         }}
       >
         <h2 style={{ textTransform: "capitalize" }}>{info.name}</h2>
-        <span
-          style={{ fontSize: "1.5rem" }}
-          onClick={() =>
-            setData((data: ICelebrity[]) =>
-              data.filter(
-                (celebrity: ICelebrity) => celebrity.name !== info.name
-              )
-            )
-          }
-        >
+        <span style={{ fontSize: "1.5rem" }} onClick={removeFromList}>
           x
         </span>
       </div>

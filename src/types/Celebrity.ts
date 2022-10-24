@@ -8,5 +8,5 @@ export interface ICelebrity {
 
 export interface Props {
   info: ICelebrity;
-  setData: any;
+  setData: React.Dispatch<React.SetStateAction<ICelebrity[]>>;
 }
