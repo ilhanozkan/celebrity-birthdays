@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 import Card from "./components/Card";
 import { ICelebrity } from "./types/Celebrity";
+import { setData } from "./features/celebrities/celebritiesSlice";
+import { RootState } from "./stores/Celebrities";
 
 const App = () => {
-  const [data, setData] = useState<ICelebrity[]>([]);
+  const dispatch = useDispatch();
+  const data = useSelector((state: RootState) => state.celebrities.value);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const nationalityFromBrowser = navigator.language.split("-")[0].toUpperCase();
@@ -31,7 +36,9 @@ const App = () => {
 
   useEffect(() => {
     if (localStorage.getItem("celebrities.data")) {
-      setData(JSON.parse(localStorage.getItem("celebrities.data") || ""));
+      dispatch(
+        setData(JSON.parse(localStorage.getItem("celebrities.data") || ""))
+      );
       setLoading(false);
     } else fetchData();
   }, [nationality]);
@@ -58,11 +65,13 @@ const App = () => {
         return res.data;
       })
       .then((celebrities) => {
-        setData(
-          celebrities.filter(
-            (celebrity: ICelebrity) =>
-              celebrity.birthday?.split("-")[1]?.replace(/^0+/, "") ===
-              month.toString()
+        dispatch(
+          setData(
+            celebrities.filter(
+              (celebrity: ICelebrity) =>
+                celebrity.birthday?.split("-")[1]?.replace(/^0+/, "") ===
+                month.toString()
+            )
           )
         );
       })
@@ -79,7 +88,7 @@ const App = () => {
   };
 
   const clearAll = () => {
-    setData([]);
+    dispatch(setData([]));
     localStorage.setItem("celebrities.data", "[]");
   };
 
@@ -106,7 +115,7 @@ const App = () => {
       <ul>
         {data.map((celebrity: ICelebrity) => (
           <li key={celebrity.name}>
-            <Card info={celebrity} setData={setData} />
+            <Card info={celebrity} />
           </li>
         ))}
       </ul>
@@ -124,7 +133,9 @@ const App = () => {
             : `${data.length} Celebrity born this month.`}
         </span>
         <button onClick={clearAll}>Clear All</button>
-        <button>Create New</button>
+        <Link to="/create">
+          <button>Create New</button>
+        </Link>
         <button onClick={fetchData}>Fetch Again</button>
       </div>
     </main>

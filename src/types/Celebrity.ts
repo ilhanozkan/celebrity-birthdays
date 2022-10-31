@@ -6,7 +6,10 @@ export interface ICelebrity {
   gender: string;
 }
 
+export interface ICelebrityState {
+  value: ICelebrity[];
+}
+
 export interface Props {
   info: ICelebrity;
-  setData: React.Dispatch<React.SetStateAction<ICelebrity[]>>;
 }
