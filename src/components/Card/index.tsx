@@ -27,6 +27,11 @@ const Card: React.FC<Props> = ({ info }) => {
           justifyContent: "space-between",
         }}
       >
+        <img
+          src={`./images/${info.gender}.png`}
+          alt={info.name}
+          style={{ maxWidth: "4rem" }}
+        />
         <h2 style={{ textTransform: "capitalize" }}>{info.name}</h2>
         <span style={{ fontSize: "1.5rem" }} onClick={removeFromList}>
           x
