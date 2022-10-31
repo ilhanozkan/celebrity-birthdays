@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import ReactFlagsSelect from "react-flags-select";
 
 import Card from "./components/Card";
 import { ICelebrity } from "./types/Celebrity";
@@ -81,8 +82,8 @@ const App = () => {
       });
   }
 
-  const changeNationality = (e: any) => {
-    setNationality(e.target.value);
+  const changeNationality = (newNationality: string) => {
+    setNationality(newNationality);
     setLoading(true);
     localStorage.setItem("celebrities.data", "");
   };
@@ -119,13 +120,11 @@ const App = () => {
           </li>
         ))}
       </ul>
-      <select onChange={changeNationality} value={nationality}>
-        {nationalities.map((nat: string) => (
-          <option key={nat} value={nat}>
-            {nat}
-          </option>
-        ))}
-      </select>
+      <ReactFlagsSelect
+        selected={nationality}
+        onSelect={(nat) => changeNationality(nat)}
+        countries={nationalities}
+      />
       <div>
         <span>
           {data.length > 1
