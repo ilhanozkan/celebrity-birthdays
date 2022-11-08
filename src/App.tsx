@@ -128,8 +128,8 @@ const App = () => {
       <div>
         <span>
           {data.length > 1
-            ? `${data.length} Celebrities born this month.`
-            : `${data.length} Celebrity born this month.`}
+            ? `${data.length} Celebrities were born this month.`
+            : `${data.length} Celebrity was born this month.`}
         </span>
         <button onClick={clearAll}>Clear All</button>
         <Link to="/create">
