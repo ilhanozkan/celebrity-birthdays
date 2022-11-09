@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import ReactFlagsSelect from "react-flags-select";
+import styled from "styled-components";
 
 import Card from "./components/Card";
 import { ICelebrity } from "./types/Celebrity";
@@ -111,34 +112,94 @@ const App = () => {
     );
 
   return (
-    <main>
-      <h1>Celebrity Birthday</h1>
-      <ul>
+    <Main>
+      <Header>Celebrity Birthday 🎂</Header>
+      <CardList>
         {data.map((celebrity: ICelebrity) => (
-          <li key={celebrity.name}>
-            <Card info={celebrity} />
-          </li>
+          <Card key={celebrity.name} info={celebrity} />
         ))}
-      </ul>
-      <ReactFlagsSelect
-        selected={nationality}
-        onSelect={(nat) => changeNationality(nat)}
-        countries={nationalities}
-      />
-      <div>
-        <span>
-          {data.length > 1
-            ? `${data.length} Celebrities were born this month.`
-            : `${data.length} Celebrity was born this month.`}
-        </span>
-        <button onClick={clearAll}>Clear All</button>
+      </CardList>
+      <FlagSelector>
+        <ReactFlagsSelect
+          selected={nationality}
+          onSelect={(nat) => changeNationality(nat)}
+          countries={nationalities}
+          searchable
+        />
+      </FlagSelector>
+      <p>
+        {data.length > 1
+          ? `${data.length} Celebrities were born this month.`
+          : `${data.length} Celebrity was born this month.`}
+      </p>
+      <ListActions>
+        <button onClick={clearAll}>🧼 Clear All</button>
         <Link to="/create">
-          <button>Create New</button>
+          <button>🧼 Create New</button>
         </Link>
-        <button onClick={fetchData}>Fetch Again</button>
-      </div>
-    </main>
+        <button onClick={fetchData}>🧼 Fetch Again</button>
+      </ListActions>
+    </Main>
   );
 };
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const Header = styled.h1`
+  font-size: 4rem;
+  text-align: center;
+`;
+
+const CardList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ListActions = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 30rem;
+
+  * {
+    width: 100%;
+    height: 2rem;
+    background-color: #242424;
+    color: white;
+    font-size: 1.05rem;
+    text-decoration: none;
+  }
+`;
+
+const FlagSelector = styled.div`
+  width: 30rem;
+  margin-top: 0.75rem;
+  box-shadow: 11px 15px 23px -17px rgba(41, 41, 41, 0.5);
+
+  div {
+    padding-bottom: 0;
+  }
+
+  button {
+    border: none;
+    background-color: #ffffffca;
+    border: 1px solid #171717;
+    border-radius: 0.35rem;
+    transition: background-color 120ms ease-in;
+    color: #171717;
+
+    &::after {
+      border-top: 5px solid #171717;
+    }
+
+    &:hover {
+      background-color: #ffffff;
+    }
+  }
+`;
 
 export default App;

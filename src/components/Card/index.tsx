@@ -1,5 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 
 import { ICelebrity, Props } from "../../types/Celebrity";
 import { setData } from "../../features/celebrities/celebritiesSlice";
@@ -19,35 +21,78 @@ const Card: React.FC<Props> = ({ info }) => {
   };
 
   return (
-    <article>
-      <div
-        style={{
-          width: "20rem",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <img
-          src={`./images/${info.gender}.png`}
-          alt={info.name}
-          style={{ maxWidth: "4rem" }}
-        />
-        <h2 style={{ textTransform: "capitalize" }}>{info.name}</h2>
-        <span style={{ fontSize: "1.5rem" }} onClick={removeFromList}>
-          x
-        </span>
-      </div>
-      <p>{info.age} years</p>
-      <p>
-        Is
-        {info.gender &&
-          (info.gender === "male"
-            ? " he "
-            : info.gender === "female" && " she ")}
-        alive: {info.is_alive ? "Yes" : "No 😔"}
-      </p>
-    </article>
+    <Container>
+      <Image src={`./images/${info.gender}.png`} alt={info.name} />
+      <Info>
+        <Top>
+          <Name>{info.name}</Name>
+          <RemoveButton onClick={removeFromList}>
+            <XCircleIcon />
+          </RemoveButton>
+        </Top>
+        <Bottom>
+          <p>{info.age} years</p>
+          <p>
+            Is
+            {info.gender &&
+              (info.gender === "male"
+                ? " he "
+                : info.gender === "female" && " she ")}
+            alive: {info.is_alive ? "Yes" : "No 😔"}
+          </p>
+        </Bottom>
+      </Info>
+    </Container>
   );
 };
+
+const Container = styled.li`
+  display: flex;
+  padding-inline: 1rem;
+  padding-block: 0.825rem;
+  margin-top: 1rem;
+  width: 30rem;
+  background-color: #ffffffca;
+  border-radius: 0.5rem;
+  border: 1px solid #171717;
+  transition: background-color 150ms ease-in;
+  box-shadow: 17px 22px 27px -17px rgba(41, 41, 41, 0.5);
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ffffff;
+  }
+`;
+
+const Info = styled.article`
+  margin-left: 1rem;
+  width: 100%;
+`;
+
+const Image = styled.img`
+  margin: 0.5rem;
+  width: 4rem;
+  height: 4rem;
+`;
+
+const Name = styled.h2`
+  text-transform: capitalize;
+`;
+
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Bottom = styled.div``;
+
+const RemoveButton = styled.button`
+  width: 2rem;
+  margin-top: 0.2rem;
+  margin-right: 0.2rem;
+  background: none;
+  outline: none;
+  border: none;
+`;
 
 export default Card;

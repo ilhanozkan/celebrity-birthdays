@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App";
-import CreateNew from "./components/CreateNew";
+import CreateNew from "./pages/CreateNew";
 import "./index.css";
 import CelebritiesStore from "./stores/Celebrities";
 

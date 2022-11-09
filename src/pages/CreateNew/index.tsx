@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { setData } from "../../features/celebrities/celebritiesSlice";
@@ -68,6 +68,9 @@ const CreateNew = () => {
           </label>
         </div>
         <button type="submit">Create New</button>
+        <Link to="/">
+          <p>🔙 Back to the list.</p>
+        </Link>
       </form>
     </main>
   );
