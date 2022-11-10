@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
 
+import Header from "../../components/Header";
 import { setData } from "../../features/celebrities/celebritiesSlice";
 import { RootState } from "../../stores/Celebrities";
 
@@ -27,7 +29,7 @@ const CreateNew = () => {
         {
           name: target.name.value,
           birthday: "",
-          age: target.age.value,
+          age: target.age.value < 0 ? 0 : target.age.value,
           is_alive: target.alive.checked,
           gender: target.gender.value,
         },
@@ -38,17 +40,17 @@ const CreateNew = () => {
   };
 
   return (
-    <main>
-      <h1>Celebrity Birthday</h1>
-      <p>Please fill these fields.</p>
+    <Main>
+      <Header />
+      <Instruction>Please fill out these fields.</Instruction>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Fullname: </label>
-          <input type="text" id="name" name="name" ref={inputEl} />
+          <input type="text" id="name" name="name" ref={inputEl} required />
         </div>
         <div>
           <label htmlFor="age">Age: </label>
-          <input type="number" id="age" name="age" />
+          <input type="number" id="age" name="age" min="0" required />
         </div>
         <div>
           <label htmlFor="female">
@@ -67,13 +69,38 @@ const CreateNew = () => {
             <input type="checkbox" value="alive" name="alive" id="alive" />
           </label>
         </div>
-        <button type="submit">Create New</button>
+        <ListButton type="submit">Create New</ListButton>
         <Link to="/">
           <p>🔙 Back to the list.</p>
         </Link>
       </form>
-    </main>
+    </Main>
   );
 };
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Instruction = styled.h2`
+  margin-top: 0.825rem;
+  font-weight: normal;
+`;
+
+const ListButton = styled.button`
+  width: 100%;
+  padding-block: 0.35rem;
+  background-color: #2c2c2c;
+  color: white;
+  font-size: 1.05rem;
+  text-decoration: none;
+  border-radius: 0.25rem;
+
+  &:active {
+    box-shadow: 0px 0px 8px 2px #6b6b6b inset;
+  }
+`;
 
 export default CreateNew;

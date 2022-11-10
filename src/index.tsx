@@ -5,8 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App";
 import CreateNew from "./pages/CreateNew";
-import "./index.css";
 import CelebritiesStore from "./stores/Celebrities";
+import "./styles/index.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

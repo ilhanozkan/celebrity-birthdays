@@ -11,7 +11,7 @@ const Card: React.FC<Props> = ({ info }) => {
   const dispatch = useDispatch();
   const data = useSelector((state: RootState) => state.celebrities.value);
 
-  const removeFromList = () => {
+  const deleteFromList = () => {
     dispatch(
       setData(
         data.filter((celebrity: ICelebrity) => celebrity.name !== info.name)
@@ -22,11 +22,15 @@ const Card: React.FC<Props> = ({ info }) => {
 
   return (
     <Container>
-      <Image src={`./images/${info.gender}.png`} alt={info.name} />
+      <Image
+        draggable="false"
+        src={`./images/${info.gender}.png`}
+        alt={info.name}
+      />
       <Info>
         <Top>
           <Name>{info.name}</Name>
-          <RemoveButton onClick={removeFromList}>
+          <RemoveButton onClick={deleteFromList}>
             <XCircleIcon />
           </RemoveButton>
         </Top>

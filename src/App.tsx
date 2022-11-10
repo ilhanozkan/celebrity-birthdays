@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import ReactFlagsSelect from "react-flags-select";
 import styled from "styled-components";
+import { PuffLoader } from "react-spinners";
+
+import SwipeToDelete from "react-swipe-to-delete-component";
+import "./styles/swipe-to-delete.css";
 
 import Card from "./components/Card";
+import Header from "./components/Header";
 import { ICelebrity } from "./types/Celebrity";
 import { setData } from "./features/celebrities/celebritiesSlice";
 import { RootState } from "./stores/Celebrities";
@@ -36,6 +41,10 @@ const App = () => {
   ].sort();
   const month = new Date().getMonth() + 1;
 
+  const spinOverride: CSSProperties = {
+    margin: "3rem",
+  };
+
   useEffect(() => {
     if (localStorage.getItem("celebrities.data")) {
       dispatch(
@@ -55,6 +64,7 @@ const App = () => {
   }, [data]);
 
   function fetchData() {
+    setLoading(true);
     axios({
       method: "get",
       url: `https://api.api-ninjas.com/v1/celebrity?nationality=${nationality}`,
@@ -94,50 +104,69 @@ const App = () => {
     localStorage.setItem("celebrities.data", "[]");
   };
 
-  if (loading)
-    return (
-      <>
-        <h1>Celebrity Birthday</h1>
-        <p>loading...</p>
-      </>
+  const deleteFromList = (item: ICelebrity) => {
+    dispatch(
+      setData(
+        data.filter((celebrity: ICelebrity) => celebrity.name !== item.name)
+      )
     );
+    localStorage.setItem("celebrities.data", "[]");
+  };
 
   if (error)
     return (
       <main>
-        <h1>Celebrity Birthday</h1>
-        <p>Sorry API isn't working :(.</p>
-        <button onClick={() => window.location.reload()}>Refresh</button>
+        <Header />
+        <Error>Error</Error>
+        <ErrorMsg>Sorry API isn't working 😔.</ErrorMsg>
+        <ListButton onClick={() => window.location.reload()}>
+          Refresh
+        </ListButton>
       </main>
+    );
+
+  if (loading)
+    return (
+      <Main>
+        <Header />
+        <PuffLoader cssOverride={spinOverride} size="5rem" />
+        <ListButton onClick={fetchData}>🧼 Fetch Again</ListButton>
+      </Main>
     );
 
   return (
     <Main>
-      <Header>Celebrity Birthday 🎂</Header>
+      <Header />
       <CardList>
         {data.map((celebrity: ICelebrity) => (
-          <Card key={celebrity.name} info={celebrity} />
+          <SwipeToDelete
+            key={celebrity.name}
+            onDelete={() => deleteFromList(celebrity)}
+            deleteSwipe={0.25}
+          >
+            <Card key={celebrity.name} info={celebrity} />
+          </SwipeToDelete>
         ))}
       </CardList>
       <FlagSelector>
         <ReactFlagsSelect
           selected={nationality}
-          onSelect={(nat) => changeNationality(nat)}
+          onSelect={(nat: string) => changeNationality(nat)}
           countries={nationalities}
           searchable
         />
       </FlagSelector>
-      <p>
+      <CelebritiesLength>
         {data.length > 1
           ? `${data.length} Celebrities were born this month.`
           : `${data.length} Celebrity was born this month.`}
-      </p>
+      </CelebritiesLength>
       <ListActions>
-        <button onClick={clearAll}>🧼 Clear All</button>
+        <ListButton onClick={clearAll}>🧼 Clear All</ListButton>
         <Link to="/create">
-          <button>🧼 Create New</button>
+          <ListButton>🧼 Create New</ListButton>
         </Link>
-        <button onClick={fetchData}>🧼 Fetch Again</button>
+        <ListButton onClick={fetchData}>🧼 Fetch Again</ListButton>
       </ListActions>
     </Main>
   );
@@ -147,10 +176,6 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-const Header = styled.h1`
-  font-size: 4rem;
-  text-align: center;
 `;
 
 const CardList = styled.ul`
@@ -164,20 +189,39 @@ const ListActions = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   width: 30rem;
+`;
 
-  * {
-    width: 100%;
-    height: 2rem;
-    background-color: #242424;
-    color: white;
-    font-size: 1.05rem;
-    text-decoration: none;
+const ListButton = styled.button`
+  width: 100%;
+  padding-block: 0.35rem;
+  background-color: #2c2c2c;
+  color: white;
+  font-size: 1.05rem;
+  text-decoration: none;
+  border-radius: 0.25rem;
+
+  &:active {
+    box-shadow: 0px 0px 8px 2px #6b6b6b inset;
   }
+`;
+
+const Error = styled.h2`
+  font-size: 2rem;
+`;
+
+const ErrorMsg = styled.p`
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+`;
+
+const CelebritiesLength = styled.p`
+  margin-block: 1rem;
+  font-size: 1.1rem;
 `;
 
 const FlagSelector = styled.div`
   width: 30rem;
-  margin-top: 0.75rem;
+  margin-top: 1.2rem;
   box-shadow: 11px 15px 23px -17px rgba(41, 41, 41, 0.5);
 
   div {
