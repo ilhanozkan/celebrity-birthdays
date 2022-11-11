@@ -5,11 +5,11 @@ import { XCircleIcon } from "@heroicons/react/24/outline";
 
 import { ICelebrity, Props } from "../../types/Celebrity";
 import { setData } from "../../features/celebrities/celebritiesSlice";
-import { RootState } from "../../stores/Celebrities";
+import { celebritiesSelector } from "../../stores/Celebrities";
 
 const Card: React.FC<Props> = ({ info }) => {
   const dispatch = useDispatch();
-  const data = useSelector((state: RootState) => state.celebrities.value);
+  const data = useSelector(celebritiesSelector);
 
   const deleteFromList = () => {
     dispatch(

@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ReactFlagsSelect from "react-flags-select";
 import styled from "styled-components";
 import { PuffLoader } from "react-spinners";
+import { ArrowPathIcon } from "@heroicons/react/24/solid";
+import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { ToastContainer, toast } from "react-toastify";
 
 import SwipeToDelete from "react-swipe-to-delete-component";
 import "./styles/swipe-to-delete.css";
@@ -13,11 +16,13 @@ import Card from "./components/Card";
 import Header from "./components/Header";
 import { ICelebrity } from "./types/Celebrity";
 import { setData } from "./features/celebrities/celebritiesSlice";
-import { RootState } from "./stores/Celebrities";
+import { celebritiesSelector, newCreatedSelector } from "./stores/Celebrities";
+import { setNewCreated } from "./features/celebrities/newCreatedCelebritySlice";
 
 const App = () => {
   const dispatch = useDispatch();
-  const data = useSelector((state: RootState) => state.celebrities.value);
+  const data = useSelector(celebritiesSelector);
+  const newCreated = useSelector(newCreatedSelector);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const nationalityFromBrowser = navigator.language.split("-")[0].toUpperCase();
@@ -62,6 +67,14 @@ const App = () => {
     if (data.length > 0)
       localStorage.setItem("celebrities.data", JSON.stringify(data));
   }, [data]);
+
+  useEffect(() => {
+    if (newCreated) {
+      console.log("duplicate", newCreated);
+      toast("🥳 New celebrity added!");
+      dispatch(setNewCreated(false));
+    }
+  }, [setNewCreated]);
 
   function fetchData() {
     setLoading(true);
@@ -120,6 +133,7 @@ const App = () => {
         <Error>Error</Error>
         <ErrorMsg>Sorry API isn't working 😔.</ErrorMsg>
         <ListButton onClick={() => window.location.reload()}>
+          <ArrowPathIcon />
           Refresh
         </ListButton>
       </main>
@@ -130,7 +144,10 @@ const App = () => {
       <Main>
         <Header />
         <PuffLoader cssOverride={spinOverride} size="5rem" />
-        <ListButton onClick={fetchData}>🧼 Fetch Again</ListButton>
+        <ListButton onClick={fetchData}>
+          <ArrowPathIcon />
+          Fetch Again
+        </ListButton>
       </Main>
     );
 
@@ -162,12 +179,22 @@ const App = () => {
           : `${data.length} Celebrity was born this month.`}
       </CelebritiesLength>
       <ListActions>
-        <ListButton onClick={clearAll}>🧼 Clear All</ListButton>
+        <ListButton onClick={clearAll}>
+          <TrashIcon />
+          Clear All
+        </ListButton>
         <Link to="/create">
-          <ListButton>🧼 Create New</ListButton>
+          <ListButton>
+            <PlusCircleIcon />
+            Create New
+          </ListButton>
         </Link>
-        <ListButton onClick={fetchData}>🧼 Fetch Again</ListButton>
+        <ListButton onClick={fetchData}>
+          <ArrowPathIcon />
+          Fetch Again
+        </ListButton>
       </ListActions>
+      <ToastContainer />
     </Main>
   );
 };
@@ -192,16 +219,25 @@ const ListActions = styled.div`
 `;
 
 const ListButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
   width: 100%;
   padding-block: 0.35rem;
   background-color: #2c2c2c;
-  color: white;
+  color: #eaefff;
   font-size: 1.05rem;
   text-decoration: none;
   border-radius: 0.25rem;
 
   &:active {
     box-shadow: 0px 0px 8px 2px #6b6b6b inset;
+  }
+
+  svg {
+    width: 1.1rem;
+    color: #eaefff;
   }
 `;
 

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
 import { ICelebrity, ICelebrityState } from "../../types/Celebrity";
 
 const initialState: ICelebrityState = {
