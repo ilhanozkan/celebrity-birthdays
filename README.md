@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# Celebrity Birthdays 🎂
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple list app for celebrity birthdays.
 
-## Available Scripts
+Fetched and created celebrities are stored in localStorage.
 
-In the project directory, you can run:
+This project was developed using **React, Redux, TypeScript** and **[Celebrity API](https://api-ninjas.com/api/celebrity)**.
 
-### `npm start`
+![Overview](./@readme-images/overview.gif)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> Make sure you have **Node.js** installed on your system.
 
-### `npm test`
+If you haven't cloned this repository to your local machine yet, clone it first with fetch options (HTTPS, SSH, GitHub CLI).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+If you have already cloned, you can skip to **Installation & Running** steps.
 
-### `npm run build`
+**Clone this repository**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Open your terminal and clone this repository to your local with the HTTPS option.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+$ git clone https://github.com/ilhanozkan/celebrity-birthday.git
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Installation & Running
 
-### `npm run eject`
+1 - Install dependencies
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Navigate to the frontend folder in terminal.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+cd game-store/backend
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Run installation command in terminal.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm i
+```
 
-## Learn More
+2 - Create environment variables file
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Create a file named `.env` under the root folder.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Paste your [Celebrity API](https://api-ninjas.com/api/celebrity) API key into this file.
 
-### Code Splitting
+Example **.env** file:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+REACT_APP_API_KEY=YOUR_API_KEY_IS_HERE
+```
 
-### Analyzing the Bundle Size
+3 - Start the project
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Start the project in development.
 
-### Making a Progressive Web App
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
+MIT License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Copyright (c) 2022 Ilhan Ozkan
 
-### Deployment
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
