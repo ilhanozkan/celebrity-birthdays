@@ -16,16 +16,11 @@ import Card from "../../components/Card";
 import Header from "../../components/Header";
 import { ICelebrity } from "../../types/Celebrity";
 import { setData } from "../../features/celebrities/celebritiesSlice";
-import {
-  celebritiesSelector,
-  newCreatedSelector,
-} from "../../stores/Celebrities";
-import { setNewCreated } from "../../features/celebrities/newCreatedCelebritySlice";
+import { celebritiesSelector } from "../../stores/Celebrities";
 
 const Home = () => {
   const dispatch = useDispatch();
   const data = useSelector(celebritiesSelector);
-  const newCreated = useSelector(newCreatedSelector);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const nationalityFromBrowser = navigator.language.split("-")[0].toUpperCase();
@@ -70,14 +65,6 @@ const Home = () => {
     if (data.length > 0)
       localStorage.setItem("celebrities.data", JSON.stringify(data));
   }, [data]);
-
-  useEffect(() => {
-    if (newCreated) {
-      console.log("duplicate", newCreated);
-      toast("🥳 New celebrity added!");
-      dispatch(setNewCreated(false));
-    }
-  }, [setNewCreated]);
 
   function fetchData() {
     setLoading(true);

@@ -7,10 +7,10 @@ import {
   ArrowUturnLeftIcon,
 } from "@heroicons/react/24/outline";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 import Header from "../../components/Header";
 import { setData } from "../../features/celebrities/celebritiesSlice";
-import { setNewCreated } from "../../features/celebrities/newCreatedCelebritySlice";
 import { celebritiesSelector } from "../../stores/Celebrities";
 
 const CreateNew = () => {
@@ -42,7 +42,7 @@ const CreateNew = () => {
       ])
     );
 
-    dispatch(setNewCreated(true));
+    toast("🥳 New celebrity added!");
     navigate("/");
   };
 
@@ -90,6 +90,7 @@ const CreateNew = () => {
           </Back>
         </Link>
       </Form>
+      <ToastContainer />
     </Main>
   );
 };
