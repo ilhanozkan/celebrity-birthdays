@@ -21,7 +21,7 @@ If you have already cloned, you can skip to **Installation & Running** steps.
 Open your terminal and clone this repository to your local with the HTTPS option.
 
 ```bash
-$ git clone https://github.com/ilhanozkan/celebrity-birthday.git
+$ git clone https://github.com/ilhanozkan/celebrity-birthdays.git
 ```
 
 ## Installation & Running
